@@ -4,7 +4,6 @@ from src.dbmethods import *
 
 app = Flask(__name__)
 
-DBPATH = "/home/penascalf5/Documentos/Investigacion/Flask/Dev/crud_sqlite3_2/gamesdb.db"
 
 # http://127.0.0.1:5000/api?console=PS4
 @app.route('/api', methods=['GET'])

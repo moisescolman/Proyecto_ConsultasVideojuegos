@@ -1,6 +1,6 @@
 import sqlite3
 from flask import jsonify
-DB_PATH = f"/home/penascalf5/Documentos/Investigacion/Flask/Dev/crud_sqlite3_2/gamesdb.db"
+DB_PATH = f"gamesdb.db"
 
 
 # Configuracion db
@@ -39,10 +39,11 @@ def init_db():
     conn.close()
 
 # Get consola INDIVIDUAL
-def get_consola_one(consola):
+def get_consola_one(consola_id):
     conn=sqlite3.connect(DB_PATH)
     cursor=conn.cursor()
-    sql = f'SELECT * FROM consolas WHERE id = {consola}'
+    print(consola_id)
+    sql = f'SELECT * FROM consolas WHERE id = {consola_id}'
     cursor.execute(sql)
     consolas = cursor.fetchall()
     conn.close()
