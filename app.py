@@ -5,40 +5,67 @@ from src.dbmethods import *
 app = Flask(__name__)
 
 
-# http://127.0.0.1:5000/api?console=PS4
-@app.route('/api', methods=['GET'])
-def get_games():
-    console = request.args['console']
-    result = get_consola_one(console)
-    # for game in result:
-    #     if game['console'] == console:
-    #         result.append(game)
-    return result
+@app.route('/')
+def index():
+    return('We are online!')
 
-# http://127.0.0.1:5000/save?console=PS4&name=Grand%20Turismo%203
-@app.route('/save', methods=['POST'])
-def save_game():
-    console= request.args['console']
-    name= request.args['name']
+# http://127.0.0.1:5000/consola?name=Xbox One
+@app.route('/consola', methods=['GET', 'POST', 'DELETE', 'PUT'])
+def consoles_gp():
+    if request.method == 'GET':
+        console = request.args['name']
+        result = get_consola_one(console)
+        return result
+    # http://127.0.0.1:5000/consola?name=Xbox Series X&company=Microsoft&year=2020
+    elif request.method == 'POST':
+        name = request.args['name']
+        company = request.args['company']
+        year = request.args['year']
+        insert_consolas(name, company, year)
+        return jsonify({"mensaje":"Consola añadida correctamente"})
+    # http://127.0.0.1:5000/consola?id=16&name=Sega Dreamcast&company=Sega&year=1999
+    elif request.method == 'PUT':
+        id = request.args['id']
+        name = request.args['name']
+        company = request.args['company']
+        year = request.args['year']
+        update_consolas(id,name, company, year)
+        return jsonify({"mensaje":"Consola modificada correctamente"})
+    # http://127.0.0.1:5000/consola?name=Sega Dreamcast
+    elif request.method == 'DELETE':
+        name = request.args['name']
+        delete_consolas(name)
+        return jsonify({"mensaje":"Consola eliminada correctamente"})
     
-    dicc = {
-        "name": name,
-        "console": console
-    }
-    return jsonify(dicc)
+# @app.route('/consolas', methods=['GET'])
+# def consolas_all():
+#     ge
+
+
+
+# @app.route('/save', methods=['POST'])
+# def save_game():
+#     console= request.args['console']
+#     name= request.args['compay']
+    
+#     dicc = {
+#         "name": name,
+#         "console": console
+#     }
+#     return jsonify(dicc)
 
 # Post con json
-@app.route('/saveJSON', methods=['POST'])
-def save_json():
-    data = request.get_json()
-    console= data['console']
-    name= data['name']
+# @app.route('/saveJSON', methods=['POST'])
+# def save_json():
+#     data = request.get_json()
+#     console= data['console']
+#     name= data['name']
     
-    dicc = {
-        "name": name,
-        "console": console
-    }
-    return jsonify(dicc)
+#     dicc = {
+#         "name": name,
+#         "console": console
+#     }
+#     return jsonify(dicc)
 
 if __name__ == "__main__":
     init_db()
