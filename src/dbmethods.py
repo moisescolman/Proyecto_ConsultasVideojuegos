@@ -58,21 +58,24 @@ def get_consola_one(consola):
     return jsonify(result)   
 
 def get_consola_all():
-    conn=sqlite3.connect(DB_PATH)
-    cursor=conn.cursor()
-    sql = f'SELECT * FROM consolas'
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    sql = 'SELECT * FROM consolas'
     cursor.execute(sql)
     consolas = cursor.fetchall()
     conn.close()
-    print(consolas)
-    print(consolas[0][1])
-    result = {
-        "id":consolas[0][0],
-        "nombre":consolas[0][1],
-        "fabricante":consolas[0][2],
-        "año":consolas[0][3]
-    }
-    return jsonify(result)   
+
+    # Convertimos la lista de tuplas a lista de diccionarios
+    result = [
+        {
+            "id": fila[0],
+            "nombre": fila[1],
+            "fabricante": fila[2],
+            "año": fila[3]
+        }
+        for fila in consolas
+    ]
+    return result
 
 # AÑADIR consola a la db
 def insert_consolas(name, company, year):
