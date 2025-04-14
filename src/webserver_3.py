@@ -22,19 +22,20 @@ def juegos_gp():
         developer = request.args['dev']
         insert_videojuego(name, gender, console, developer)
         return jsonify({"mensaje":"Videojuego añadido correctamente"})
-    # # http://127.0.0.1:5000/consola?id=16&name=Sega Dreamcast&company=Sega&year=1999
-    # elif request.method == 'PUT':
-    #     id = request.args['id']
-    #     name = request.args['name']
-    #     company = request.args['company']
-    #     year = request.args['year']
-    #     update_consolas(id,name, company, year)
-    #     return jsonify({"mensaje":"Consola modificada correctamente"})
-    # # http://127.0.0.1:5000/consola?name=Sega Dreamcast
-    # elif request.method == 'DELETE':
-    #     name = request.args['name']
-    #     delete_consolas(name)
-    #     return jsonify({"mensaje":"Consola eliminada correctamente"})
+    # http://127.0.0.1:5000/juego?name=Need For Speed Porshe Unleashed&console=1&gender=Carreras&dev=25
+    elif request.method == 'PUT':
+        id = request.args['id']
+        name = request.args['name']
+        console = request.args['console']
+        gender = request.args['gender']
+        developer = request.args['dev']
+        update_videojuego(id, name, console, gender, developer)
+        return jsonify({"mensaje":"Videojuego modificado correctamente"})
+    # http://127.0.0.1:5000/juego?id=63
+    elif request.method == 'DELETE':
+        id = request.args['id']
+        delete_consolas(name)
+        return jsonify({"mensaje":"Consola eliminada correctamente"})
 
 # http://127.0.0.1:5000/juegos
 @app.route('/juegos', methods=['GET'])
