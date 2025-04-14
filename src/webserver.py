@@ -1,13 +1,20 @@
 from flask import Flask, jsonify, request
 from src.dbconsolas import *
+from flask import Flask, render_template
 
 
 app = Flask(__name__)
 
-
 @app.route('/')
 def index():
-    return('We are online!')
+    # Renderiza el archivo index.html desde la carpeta 'templates'
+    return render_template('index.html')
+
+
+@app.route('/add_videojuego', methods=['GET', 'POST'])
+def add_videojuego():
+    # Your code to handle adding a video game
+    return render_template('videojuego_form.html')  # or some other template
 
 # http://127.0.0.1:5000/consola?name=Xbox One
 @app.route('/consola', methods=['GET', 'POST', 'DELETE', 'PUT'])

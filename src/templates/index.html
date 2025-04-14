@@ -1,0 +1,78 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Games</title>
+    <!-- Link to CSS in the static folder -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>Welcome to the Video Game Collection</h1>
+    <a href="{{ url_for('add_videojuego') }}">Añadir Videojuego</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Game</th>
+                <th>Year</th>
+                <th>Genre</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Game 1</td>
+                <td>2020</td>
+                <td>Action</td>
+            </tr>
+            <tr>
+                <td>Game 2</td>
+                <td>2021</td>
+                <td>Adventure</td>
+            </tr>
+            <tr>
+                <td>Game 3</td>
+                <td>2022</td>
+                <td>RPG</td>
+            </tr>
+            <tr>
+                <td>Game 4</td>
+                <td>2023</td>
+                <td>Strategy</td>
+            </tr>
+            <tr>
+                <td>Game 5</td>
+                <td>2024</td>
+                <td>Sports</td>
+            </tr>
+            <tr>
+                <td>Game 6</td>
+                <td>2019</td>
+                <td>Horror</td>
+            </tr>
+            <tr>
+                <td>Game 7</td>
+                <td>2020</td>
+                <td>Racing</td>
+            </tr>
+            <tr>
+                <td>Game 8</td>
+                <td>2021</td>
+                <td>Fighting</td>
+            </tr>
+            <tr>
+                <td>Game 9</td>
+                <td>2022</td>
+                <td>Simulation</td>
+            </tr>
+            <tr>
+                <td>Game 10</td>
+                <td>2023</td>
+                <td>Platformer</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
