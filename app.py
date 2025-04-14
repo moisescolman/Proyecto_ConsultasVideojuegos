@@ -1,5 +1,5 @@
 from src.webserver import app 
-from src.dbmethods import init_db
+from src.dbconsolas import init_db
 #de src\webserver.py importa app
 
 #app.run(debug=True);
