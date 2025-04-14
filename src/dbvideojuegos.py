@@ -36,12 +36,21 @@ def get_all_juegos():
 
 
 # AÑADIR consola a la db
-def insert_consolas(name, company, year):
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute('INSERT INTO consolas (nombre, fabricante, anio) VALUES (?, ?, ?)', (name, company, year))
-    conn.commit()
-    conn.close()
+def insert_videojuego(title, genre, console_id, dev_id):
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute(
+            'INSERT INTO videojuegos (titulo, genero, id_consola, id_desarrollador) VALUES (?, ?, ?, ?)',
+            (title, genre, console_id, dev_id)
+        )
+        conn.commit()
+    except sqlite3.IntegrityError as e:
+        conn.rollback()
+        return jsonify({"error": "Error de integridad: clave foránea no válida.", "details": str(e)}), 400
+    finally:
+        conn.close()
+    return jsonify({"mensaje": "Videojuego insertado correctamente"}), 201
     
 # ACTUALIZAR consola a la db
 def update_consolas(id, name, company, year):

@@ -14,13 +14,14 @@ def juegos_gp():
         consola = request.args['console']
         result = get_juego_one(juego, consola)
         return result
-    # http://127.0.0.1:5000/consola?name=Xbox Series X&company=Microsoft&year=2020
-    # elif request.method == 'POST':
-    #     name = request.args['name']
-    #     company = request.args['company']
-    #     year = request.args['year']
-    #     insert_consolas(name, company, year)
-    #     return jsonify({"mensaje":"Consola añadida correctamente"})
+    # http://127.0.0.1:5000/juego?name=Need For Speed Porshe Unleashed&console=1&gender=Carreras&dev=25
+    elif request.method == 'POST':
+        name = request.args['name']
+        console = request.args['console']
+        gender = request.args['gender']
+        developer = request.args['dev']
+        insert_videojuego(name, gender, console, developer)
+        return jsonify({"mensaje":"Videojuego añadido correctamente"})
     # # http://127.0.0.1:5000/consola?id=16&name=Sega Dreamcast&company=Sega&year=1999
     # elif request.method == 'PUT':
     #     id = request.args['id']
