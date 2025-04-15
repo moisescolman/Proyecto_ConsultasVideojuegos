@@ -1,20 +1,13 @@
-from flask import Flask, jsonify, request
-from dbconsolas import *
+from flask import Flask, jsonify, request, render_template, redirect, url_for
+from src.dbconsolas import *
 from flask import Flask, render_template
 
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='/home/penascalf5/Documentos/Investigacion/Flask/Proyecto/Proyecto_ConsultasVideojuegos-1/templates')
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
-
-
-from src.dbconsolas import insert_videojuego  # Asegúrate de tener esto al inicio
-
-from flask import Flask, render_template, request, redirect, url_for
-from src.dbconsolas import insert_videojuego  # Asegúrate de tener esto al inicio
 
 @app.route('/add_videojuego', methods=['GET', 'POST'])
 def add_videojuego():
@@ -25,7 +18,7 @@ def add_videojuego():
         desarrollador_id = request.form['desarrollador_id']
         anio = request.form['anio']
 
-        insert_videojuego(titulo, genero, consola_id, desarrollador_id, anio)
+        insert_videojuego(titulo, consola_id, desarrollador_id)
 
         return render_template('videojuego_form.html', mensaje="¡Videojuego añadido!")
     
@@ -67,28 +60,4 @@ def consolas_all():
     return jsonify(result)
 
 
-
-# @app.route('/save', methods=['POST'])
-# def save_game():
-#     console= request.args['console']
-#     name= request.args['compay']
-    
-#     dicc = {
-#         "name": name,
-#         "console": console
-#     }
-#     return jsonify(dicc)
-
-# Post con json
-# @app.route('/saveJSON', methods=['POST'])
-# def save_json():
-#     data = request.get_json()
-#     console= data['console']
-#     name= data['name']
-    
-#     dicc = {
-#         "name": name,
-#         "console": console
-#     }
-#     return jsonify(dicc)
 

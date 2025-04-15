@@ -41,8 +41,8 @@ def insert_videojuego(title, genre, console_id, dev_id):
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         cursor.execute(
-            'INSERT INTO videojuegos (titulo, genero, id_consola, id_desarrollador) VALUES (?, ?, ?, ?)',
-            (title, genre, console_id, dev_id)
+            'INSERT INTO videojuegos (titulo, id_consola, id_desarrollador) VALUES (?, ?, ?)',
+            (title, console_id, dev_id)
         )
         conn.commit()
     except sqlite3.IntegrityError as e:
