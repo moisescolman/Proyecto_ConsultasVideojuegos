@@ -1,6 +1,6 @@
 from flask import jsonify
 import sqlite3
-DB_PATH = f"gamesdb.db"
+DB_PATH = f"videojuegos.db"
 
 
 # Get juego INDIVIDUAL
@@ -35,14 +35,14 @@ def get_all_juegos():
     return juegos
 
 
-# AÑADIR consola a la db
-def insert_videojuego(title, genre, console_id, dev_id):
+# AÑADIR VIDEOJUEGO A LA BASE DE DATOS
+def insert_videojuego(title, genre_id, console_id):
     try:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         cursor.execute(
-            'INSERT INTO videojuegos (titulo, id_consola, id_desarrollador) VALUES (?, ?, ?)',
-            (title, console_id, dev_id)
+            'INSERT INTO videojuegos (titulo, id_consola, id_genero) VALUES (?, ?, ?)',
+            (title, console_id, genre_id)
         )
         conn.commit()
     except sqlite3.IntegrityError as e:

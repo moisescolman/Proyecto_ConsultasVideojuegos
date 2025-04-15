@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, render_template, redirect, url_for
 from src.dbconsolas import *
-from flask import Flask, render_template
+from src.dbvideojuegos import *
+
 
 
 app = Flask(__name__, template_folder='../templates')
@@ -9,17 +10,13 @@ app = Flask(__name__, template_folder='../templates')
 def index():
     return render_template('index.html')
 
-@app.route('/add_videojuego', methods=['GET', 'POST'])
+@app.route('/add_videojuego', methods=['POST'])
 def add_videojuego():
     if request.method == 'POST':
         titulo = request.form['titulo']
-        genero = request.form['genero']
-        consola_id = request.form['consola_id']
-        desarrollador_id = request.form['desarrollador_id']
-        anio = request.form['anio']
-
-        insert_videojuego(titulo, consola_id, desarrollador_id)
-
+        genero = request.form['genero_id']
+        consola= request.form['consola_id']
+        insert_videojuego(titulo, genero, consola)
         return render_template('videojuego_form.html', mensaje="¡Videojuego añadido!")
     
     return render_template('videojuego_form.html')
