@@ -52,19 +52,20 @@ def insert_videojuego(title, genre, console_id, dev_id):
         conn.close()
     return jsonify({"mensaje": "Videojuego insertado correctamente"}), 201
     
-# ACTUALIZAR consola a la db
-def update_consolas(id, name, company, year):
+# ACTUALIZAR videojuego en db
+def update_videojuego(id, name, console, gender, developer):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute('UPDATE consolas SET nombre = ?, fabricante = ?, anio = ? WHERE id = ?', (name, company, year, id))
+    cursor.execute('UPDATE videojuegos SET titulo = ?, genero = ?, id_consola = ?, id_desarrollador = ? WHERE id = ?', 
+                   (name, gender, console, developer, id))
     conn.commit()
     conn.close()
     
 # BORRAR consolas db
-def delete_consolas(consola):
+def delete_videojuego(id):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute('DELETE FROM consolas WHERE nombre = ?', (consola,))
+    cursor.execute('DELETE FROM videojuego WHERE id = ?', (id,))
     conn.commit()
     conn.close()
 
