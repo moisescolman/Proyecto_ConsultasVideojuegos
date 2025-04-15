@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from src.dbconsolas import *
+from dbconsolas import *
 from flask import Flask, render_template
 
 
@@ -7,14 +7,30 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    # Renderiza el archivo index.html desde la carpeta 'templates'
     return render_template('index.html')
 
 
+
+from src.dbconsolas import insert_videojuego  # Asegúrate de tener esto al inicio
+
+from flask import Flask, render_template, request, redirect, url_for
+from src.dbconsolas import insert_videojuego  # Asegúrate de tener esto al inicio
+
 @app.route('/add_videojuego', methods=['GET', 'POST'])
 def add_videojuego():
-    # Your code to handle adding a video game
-    return render_template('videojuego_form.html')  # or some other template
+    if request.method == 'POST':
+        titulo = request.form['titulo']
+        genero = request.form['genero']
+        consola_id = request.form['consola_id']
+        desarrollador_id = request.form['desarrollador_id']
+        anio = request.form['anio']
+
+        insert_videojuego(titulo, genero, consola_id, desarrollador_id, anio)
+
+        return render_template('videojuego_form.html', mensaje="¡Videojuego añadido!")
+    
+    return render_template('videojuego_form.html')
+
 
 # http://127.0.0.1:5000/consola?name=Xbox One
 @app.route('/consola', methods=['GET', 'POST', 'DELETE', 'PUT'])

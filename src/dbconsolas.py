@@ -25,20 +25,37 @@ def init_db():
     ''')
 
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS videojuegos (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            titulo TEXT NOT NULL,
-            genero TEXT,
-            id_consola INTEGER,
-            id_desarrollador INTEGER,
-            FOREIGN KEY (id_consola) REFERENCES consolas(id),
-            FOREIGN KEY (id_desarrollador) REFERENCES desarrolladores(id)
-        );
+       CREATE TABLE IF NOT EXISTS videojuegos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    titulo TEXT NOT NULL,
+    genero TEXT,
+    id_consola INTEGER,
+    id_desarrollador INTEGER,
+    FOREIGN KEY (id_consola) REFERENCES consolas(id),
+    FOREIGN KEY (id_desarrollador) REFERENCES desarrolladores(id)
+);
+
     ''')
     conn.commit()
     conn.close()
 
+
 # Get consola INDIVIDUAL
+
+def insert_videojuego(titulo, genero, consola_id, desarrollador_id):
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    sql = """
+        INSERT INTO videojuegos (titulo, genero, id_consola, id_desarrollador)
+        VALUES (?, ?, ?, ?)
+    """
+    cursor.execute(sql, (titulo, genero, consola_id, desarrollador_id))
+    conn.commit()
+    conn.close()
+
+
+
+
 def get_consola_one(consola):
     conn=sqlite3.connect(DB_PATH)
     cursor=conn.cursor()

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir Videojuego</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>Formulario de Videojuego</h1>
+    <form method="POST">
+        <label for="titulo">Título:</label>
+        <input type="text" name="titulo" required><br>
+    
+        <label for="genero">Género:</label>
+        <input type="text" name="genero" required><br>
+    
+        <label for="consola_id">ID Consola:</label>
+        <input type="number" name="consola_id" required><br>
+    
+        <label for="desarrollador_id">ID Desarrollador:</label>
+        <input type="number" name="desarrollador_id" required><br>
+    
+        <label for="anio">Año:</label>
+        <input type="number" name="anio" required><br>
+    
+        <button type="submit">Guardar Videojuego</button>
+    </form>
+    
+</div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+
+</body>
+</html>
