@@ -3,7 +3,7 @@ from src.dbconsolas import *
 from flask import Flask, render_template
 
 
-app = Flask(__name__, template_folder='/home/penascalf5/Documentos/Investigacion/Flask/Proyecto/Proyecto_ConsultasVideojuegos-1/templates')
+app = Flask(__name__, template_folder='../templates')
 
 @app.route('/')
 def index():
