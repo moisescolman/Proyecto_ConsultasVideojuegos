@@ -34,7 +34,7 @@ def juegos_gp():
     # http://127.0.0.1:5000/juego?id=63
     elif request.method == 'DELETE':
         id = request.args['id']
-        delete_consolas(name)
+        delete_videojuego(name)
         return jsonify({"mensaje":"Consola eliminada correctamente"})
 
 # http://127.0.0.1:5000/juegos
