@@ -15,13 +15,12 @@ def get_juego_one(name, console):
     result = {
         "id": juego[0],
         "titulo": juego[1],
-        "genero": juego[2],
-        "id_consola": juego[3],
-        "id_desarrollador": juego[4]
+        "id_consola": juego[2],
+        "id_genero": juego[3]
     }
     return jsonify(result)
 
-
+# 
 def get_all_juegos():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -29,9 +28,8 @@ def get_all_juegos():
     cursor.execute(sql)
     rows = cursor.fetchall()
     conn.close()
-    keys = ['id', 'titulo', 'genero', 'id_consola', 'id_desarrollador']
+    keys = ['id', 'titulo', 'genero', 'id_consola', 'id_genero']
     juegos = [dict(zip(keys, row)) for row in rows]
-    print(juegos)
     return juegos
 
 
@@ -53,11 +51,10 @@ def insert_videojuego(title, genre_id, console_id):
     return jsonify({"mensaje": "Videojuego insertado correctamente"}), 201
     
 # ACTUALIZAR videojuego en db
-def update_videojuego(id, name, console, gender, developer):
+def update_videojuego(id, name, console, genre):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute('UPDATE videojuegos SET titulo = ?, genero = ?, id_consola = ?, id_desarrollador = ? WHERE id = ?', 
-                   (name, gender, console, developer, id))
+    cursor.execute('UPDATE videojuegos SET titulo = ?, id_genero = ?, id_consola = ? WHERE id = ?', (name, genre, console, id))
     conn.commit()
     conn.close()
     
@@ -65,7 +62,7 @@ def update_videojuego(id, name, console, gender, developer):
 def delete_videojuego(id):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute('DELETE FROM videojuego WHERE id = ?', (id,))
+    cursor.execute('DELETE FROM videojuegos WHERE id = ?', (id,))
     conn.commit()
     conn.close()
 
