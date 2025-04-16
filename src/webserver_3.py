@@ -22,7 +22,7 @@ def juegos_gp():
         genre = request.args['genre']
         insert_videojuego(name, genre, console)
         return jsonify({"mensaje":"Videojuego añadido correctamente"})
-    # http://127.0.0.1:5000/juego?name=Need For Speed Porshe Unleashed&console=1&gender=Carreras&dev=25
+    # http://127.0.0.1:5000/juego?id=31&name=Need For Speed Porshe Unleashed&console=2&genre=7
     elif request.method == 'PUT':
         id = request.args['id']
         name = request.args['name']
@@ -30,7 +30,7 @@ def juegos_gp():
         genre = request.args['genre']
         update_videojuego(id, name, console, genre)
         return jsonify({"mensaje":"Videojuego modificado correctamente"})
-    # http://127.0.0.1:5000/juego?id=63
+    # http://127.0.0.1:5000/juego?id=31 
     elif request.method == 'DELETE':
         id = request.args['id']
         delete_videojuego(id)
