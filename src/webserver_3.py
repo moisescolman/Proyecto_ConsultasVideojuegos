@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, redirect, url_for
 from src.dbvideojuegos import *
 from src.dbconsolas import *
 from src.dbgeneros import *
@@ -55,18 +55,63 @@ def juegos_all():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    sort_by = request.args.get('sort_by', 'id')
+    order   = request.args.get('order',   'asc')
+    juegos = get_all_juegos_completo()
+    if sort_by in ('id','titulo','consola','genero'):
+        juegos.sort(key=lambda x: x[sort_by], reverse=(order=='desc'))
+    return render_template('index.html',
+                           juegos=juegos,
+                           sort_by=sort_by,
+                           order=order)
 
-@app.route('/add_videojuego', methods=['GET', 'POST'])
+# ——— Alta de nuevo videojuego ————————————————————————
+@app.route('/add_videojuego', methods=['GET','POST'])
 def add_videojuego():
+    generos  = get_generos_all()
+    consolas = get_consola_all()
     if request.method == 'POST':
-        titulo = request.form['titulo']
-        genero = request.form['genero_id']
-        consola= request.form['consola_id']
-        insert_videojuego(titulo, genero, consola)
-        return render_template('videojuego_form.html', mensaje="¡Videojuego añadido!")
-    
-    return render_template('videojuego_form.html')
+        insert_videojuego(
+            request.form['titulo'],
+            request.form['genero'],
+            request.form['consola_id']
+        )
+        mensaje = "✅ Videojuego añadido correctamente"
+        return render_template('videojuego_form.html',
+                               generos=generos,
+                               consolas=consolas,
+                               mensaje=mensaje)
+    return render_template('videojuego_form.html',
+                           generos=generos,
+                           consolas=consolas)
+
+# ——— Editar videojuego —————————————————————————————
+@app.route('/edit_videojuego/<int:juego_id>', methods=['GET','POST'])
+def edit_videojuego(juego_id):
+    generos  = get_generos_all()
+    consolas = get_consola_all()
+    juego = get_juego_by_id(juego_id)
+    if juego is None:
+        return redirect(url_for('index'))
+    if request.method == 'POST':
+        update_videojuego(
+            juego_id,
+            request.form['titulo'],
+            request.form['consola_id'],
+            request.form['genero']
+        )
+        return redirect(url_for('index'))
+    # GET: form pre-rellenado
+    return render_template('videojuego_edit_form.html',
+                           generos=generos,
+                           consolas=consolas,
+                           juego=juego)
+
+# ——— Borrar videojuego —————————————————————————————
+@app.route('/delete_videojuego/<int:juego_id>', methods=['POST'])
+def delete_videojuego_route(juego_id):
+    delete_videojuego(juego_id)
+    return redirect(url_for('index'))
 
 #############################################
 # RUTAS PARA CONSOLAS

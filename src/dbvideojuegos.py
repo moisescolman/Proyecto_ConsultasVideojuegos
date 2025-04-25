@@ -68,101 +68,49 @@ def delete_videojuego(id):
 
     
     
-# # Get todos las consolas desde db
-# def get_consolas():
-#     conn=sqlite3.connect(DB_PATH)
-#     cursor=conn.cursor()
-#     cursor.execute('SELECT * FROM consolas')
-#     consolas = cursor.fetchall()
-#     conn.close()
-#     print(consolas)
-#     return consolas   
-    
-# # Get todos los desarrolladores desde db
-# def get_desarrolladores():
-#     conn=sqlite3.connect(DB_PATH)
-#     cursor=conn.cursor()
-#     cursor.execute('SELECT * FROM desarrolladores')
-#     desarrolladores = cursor.fetchall()
-#     conn.close()
-#     print(desarrolladores)
-#     return desarrolladores
-
-# # Get todos los videojuegos desde db
-# def get_videojuegos():
-#     conn=sqlite3.connect(DB_PATH)
-#     cursor=conn.cursor()
-#     cursor.execute('SELECT * FROM videojuegos')
-#     videojuegos = cursor.fetchall()
-#     conn.close()
-#     print(videojuegos)
-#     return videojuegos
+######################################
+# MÉTODOS PARA TEMPLATES
 
 
+def get_all_juegos_completo():
+    """
+    Devuelve una lista de dicts con:
+      id, titulo, genero, consola, anio (año de la consola)
+    """
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT
+            v.id,
+            v.titulo,
+            g.nombre   AS genero,
+            c.nombre   AS consola,
+            c.anio     AS anio
+        FROM videojuegos v
+        LEFT JOIN generos    g ON v.id_genero  = g.id
+        LEFT JOIN consolas   c ON v.id_consola = c.id
+        ORDER BY v.titulo
+    ''')
+    rows = cursor.fetchall()
+    conn.close()
 
-# # Añadir desarrolladores a la db
-# def add_user(name, country):
-#     conn = sqlite3.connect(DB_PATH)
-#     cursor = conn.cursor()
-#     cursor.execute('INSERT INTO desarrolladores (nombre, pais) VALUES (?, ?)', (name, country))
-#     conn.commit()
-#     conn.close()
+    keys = ['id', 'titulo', 'genero', 'consola', 'anio']
+    return [dict(zip(keys, row)) for row in rows]
 
-# # Añadir videojuegos a la db
-# def add_user(title, gender, console_id, dev_id):
-#     conn = sqlite3.connect(DB_PATH)
-#     cursor = conn.cursor()
-#     cursor.execute('INSERT INTO desarrolladores (titulo, genero, id_consola, id_desarrollador) VALUES (?, ?)', (title, gender, console_id, dev_id))
-#     conn.commit()
-#     conn.close()
-
-# # ACTUALIZAR consola a la db
-# def add_consolas(id, name, company, year):
-#     conn = sqlite3.connect(DB_PATH)
-#     cursor = conn.cursor()
-#     cursor.execute('UPDATE consolas SET nombre = ?, fabricante = ?, anio = ? WHERE id = ?', (name, company, year, id))
-#     conn.commit()
-#     conn.close()
-
-# # ACTUALIZAR desarrolladores a la db
-# def add_desarrolladores(id, name, country):
-#     conn = sqlite3.connect(DB_PATH)
-#     cursor = conn.cursor()
-#     cursor.execute('UPDATE desarrolladores SET nombre = ?, pais = ? WHERE id = ?', (name, country, id))
-#     conn.commit()
-#     conn.close()
-
-# # ACTUALIZAR videojuegos a la db
-# def add_videojuegos(id, title, gender, console_id, dev_id):
-#     conn = sqlite3.connect(DB_PATH)
-#     cursor = conn.cursor()
-#     cursor.execute('UPDATE videojuegos SET titulo = ?, genero = ? , id_consola = ?, id_desarrollador = ? WHERE id = ?', (title, gender, console_id, dev_id, id))
-#     conn.commit()
-#     conn.close()
-
-
-    
-# # borrar consolas db
-# def delete_consolas(id):
-#     conn = sqlite3.connect(DB_PATH)
-#     cursor = conn.cursor()
-#     cursor.execute('DELETE FROM consolas WHERE id = ?', (id,))
-#     conn.commit()
-#     conn.close()
-
-    
-# # borrar desarrolladores db
-# def delete_desarrolladores(id):
-#     conn = sqlite3.connect(DB_PATH)
-#     cursor = conn.cursor()
-#     cursor.execute('DELETE FROM desarrolladores WHERE id = ?', (id,))
-#     conn.commit()
-#     conn.close()
-    
-# # borrar videojuegos db
-# def delete_videojuegos(id):
-#     conn = sqlite3.connect(DB_PATH)
-#     cursor = conn.cursor()
-#     cursor.execute('DELETE FROM videojuegos WHERE id = ?', (id,))
-#     conn.commit()
-#     conn.close()
+def get_juego_by_id(juego_id):
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute(
+        'SELECT id, titulo, id_genero, id_consola FROM videojuegos WHERE id = ?',
+        (juego_id,)
+    )
+    row = cursor.fetchone()
+    conn.close()
+    if row is None:
+        return None
+    return {
+        "id":           row[0],
+        "titulo":       row[1],
+        "genero_id":    row[2],
+        "consola_id":   row[3]
+    }

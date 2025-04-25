@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Añadir Videojuego</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='forms_style.css') }}" />
+</head>
+<body>
+  <div class="container">
+    <h1>Modificar Videojuego</h1>
+    <form action="{{ url_for('edit_videojuego', juego_id=juego.id) }}" method="post">
+      <div class="form-group">
+        <label for="titulo">Título</label>
+        <input type="text"
+               id="titulo"
+               name="titulo"
+               value="{{ juego.titulo }}"
+               required>
+      </div>
+
+      <div class="form-group">
+        <label for="genero">Género</label>
+        <select id="genero" name="genero" required>
+          {% for g in generos %}
+            <option value="{{ g.id }}"
+              {% if g.id == juego.genero_id %}selected{% endif %}>
+              {{ g.nombre }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="consola_id">Consola</label>
+        <select id="consola_id" name="consola_id" required>
+          {% for c in consolas %}
+            <option value="{{ c.id }}"
+              {% if c.id == juego.consola_id %}selected{% endif %}>
+              {{ c.nombre }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <button type="submit" class="btn">Guardar Cambios</button>
+    </form>
+    <p><a href="{{ url_for('index') }}">← Volver al listado</a></p>
+  </div>
+</body>
+</html>

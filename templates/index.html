@@ -1,79 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Games</title>
-    <!-- Link to CSS in the static folder -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Video Game Collection</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
+  <div class="container">
+    <div class="imagenconsola">
 
-<div class="container">
-    <h1>Welcome to the Video Game Collection</h1>
-    <a href="{{ url_for('add_videojuego') }}">Añadir Videojuego</a>
+      <img src="{{ url_for('static', filename='img/gamegame.png') }}" alt="Game!">
+    </div>
+    <h1>Colección de Videojuegos</h1>
+    <p><a href="{{ url_for('add_videojuego') }}">Añadir Videojuego</a></p>
 
-    <table>
+    {% if juegos %}
+      <table>
         <thead>
-            <tr>
-                <th>Game</th>
-                <th>Year</th>
-                <th>Genre</th>
-            </tr>
+          <tr>
+            <th>
+              <a href="{{ url_for('index', sort_by='id', order=('desc' if sort_by=='id' and order=='asc' else 'asc')) }}">
+                ID{% if sort_by=='id' %} {{ '↑' if order=='asc' else '↓' }}{% endif %}
+              </a>
+            </th>
+            <th>
+              <a href="{{ url_for('index', sort_by='titulo', order=('desc' if sort_by=='titulo' and order=='asc' else 'asc')) }}">
+                Título{% if sort_by=='titulo' %} {{ '↑' if order=='asc' else '↓' }}{% endif %}
+              </a>
+            </th>
+            <th>
+              <a href="{{ url_for('index', sort_by='consola', order=('desc' if sort_by=='consola' and order=='asc' else 'asc')) }}">
+                Consola{% if sort_by=='consola' %} {{ '↑' if order=='asc' else '↓' }}{% endif %}
+              </a>
+            </th>
+            <th>
+              <a href="{{ url_for('index', sort_by='genero', order=('desc' if sort_by=='genero' and order=='asc' else 'asc')) }}">
+                Género{% if sort_by=='genero' %} {{ '↑' if order=='asc' else '↓' }}{% endif %}
+              </a>
+            </th>
+            <th>Acciones</th>
+          </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Game 1</td>
-                <td>2020</td>
-                <td>Action</td>
-            </tr>
-            <tr>
-                <td>Game 2</td>
-                <td>2021</td>
-                <td>Adventure</td>
-            </tr>
-            <tr>
-                <td>Game 3</td>
-                <td>2022</td>
-                <td>RPG</td>
-            </tr>
-            <tr>
-                <td>Game 4</td>
-                <td>2023</td>
-                <td>Strategy</td>
-            </tr>
-            <tr>
-                <td>Game 5</td>
-                <td>2024</td>
-                <td>Sports</td>
-            </tr>
-            <tr>
-                <td>Game 6</td>
-                <td>2019</td>
-                <td>Horror</td>
-            </tr>
-            <tr>
-                <td>Game 7</td>
-                <td>2020</td>
-                <td>Racing</td>
-            </tr>
-            <tr>
-                <td>Game 8</td>
-                <td>2021</td>
-                <td>Fighting</td>
-            </tr>
-            <tr>
-                <td>Game 9</td>
-                <td>2022</td>
-                <td>Simulation</td>
-            </tr>
-            <tr>
-                <td>Game 10</td>
-                <td>2023</td>
-                <td>Platformer</td>
-            </tr>
+          {% for j in juegos %}
+          <tr>
+            <td>{{ j.id }}</td>
+            <td>{{ j.titulo }}</td>
+            <td>{{ j.consola }}</td>
+            <td>{{ j.genero }}</td>
+            <td>
+              <a class="btn" href="{{ url_for('edit_videojuego', juego_id=j.id) }}">✎ Editar</a>
+              <form
+                action="{{ url_for('delete_videojuego_route', juego_id=j.id) }}"
+                method="post"
+                style="display:inline"
+                onsubmit="return confirm(`¿Eliminar {{ j.titulo }}?`);"
+              >
+                <button type="submit" class="btn">☓ Eliminar</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
         </tbody>
-    </table>
-</div>
-<script src="{{ url_for('static', filename='script.js') }}"></script>
-
+      </table>
+    {% else %}
+      <p>No hay videojuegos registrados.</p>
+    {% endif %}
+  </div>
 </body>
 </html>
