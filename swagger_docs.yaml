@@ -1,0 +1,387 @@
+swagger: "2.0"
+info:
+  title: API de Videojuegos
+  description: API para gestión de videojuegos, consolas y géneros
+  version: "1.0.0"
+basePath: /api
+schemes:
+  - http
+produces:
+  - application/json
+
+# ------------------------------------------------------------
+# SECCIÓN DE CONSOLAS
+# Endpoints para gestionar consolas de videojuegos
+# Permiten CRUD de consolas (Crear, Leer, Actualizar, Eliminar)
+# ------------------------------------------------------------
+
+paths:
+  /consola:
+    get:
+      summary: Obtener una consola específica
+      description: Devuelve los detalles de una consola por su nombre
+      parameters:
+        - name: name
+          in: query
+          required: true
+          type: string
+          description: Nombre de la consola a buscar
+      responses:
+        200:
+          description: Detalles de la consola
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              nombre:
+                type: string
+              fabricante:
+                type: string
+              año:
+                type: integer
+
+    post:
+      summary: Añadir nueva consola
+      description: Crea una nueva entrada de consola en la base de datos
+      parameters:
+        - name: name
+          in: query
+          required: true
+          type: string
+          description: Nombre de la consola
+        - name: company
+          in: query
+          required: true
+          type: string
+          description: Fabricante de la consola
+        - name: year
+          in: query
+          required: true
+          type: integer
+          description: Año de lanzamiento
+      responses:
+        200:
+          description: Consola añadida correctamente
+          schema:
+            type: object
+            properties:
+              mensaje:
+                type: string
+
+    put:
+      summary: Actualizar consola existente
+      description: Modifica los datos de una consola existente
+      parameters:
+        - name: id
+          in: query
+          required: true
+          type: integer
+          description: ID de la consola a modificar
+        - name: name
+          in: query
+          required: true
+          type: string
+          description: Nuevo nombre de la consola
+        - name: company
+          in: query
+          required: true
+          type: string
+          description: Nuevo fabricante
+        - name: year
+          in: query
+          required: true
+          type: integer
+          description: Nuevo año de lanzamiento
+      responses:
+        200:
+          description: Consola modificada correctamente
+          schema:
+            type: object
+            properties:
+              mensaje:
+                type: string
+
+    delete:
+      summary: Eliminar consola
+      description: Borra una consola de la base de datos
+      parameters:
+        - name: name
+          in: query
+          required: true
+          type: string
+          description: Nombre de la consola a eliminar
+      responses:
+        200:
+          description: Consola eliminada correctamente
+          schema:
+            type: object
+            properties:
+              mensaje:
+                type: string
+
+  /consolas:
+    get:
+      summary: Obtener todas las consolas
+      description: Devuelve una lista completa de todas las consolas registradas
+      responses:
+        200:
+          description: Lista de consolas
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                nombre:
+                  type: string
+                fabricante:
+                  type: string
+                año:
+                  type: integer
+
+# ------------------------------------------------------------
+# SECCIÓN DE GÉNEROS
+# Endpoints para gestionar géneros de videojuegos
+# Permiten CRUD de géneros (Crear, Leer, Actualizar, Eliminar)
+# ------------------------------------------------------------
+
+  /genero:
+    get:
+      summary: Obtener un género específico
+      description: Devuelve los detalles de un género por su ID
+      parameters:
+        - name: id
+          in: query
+          required: true
+          type: integer
+          description: ID del género a buscar
+      responses:
+        200:
+          description: Detalles del género
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              genero:
+                type: string
+
+    post:
+      summary: Añadir nuevo género
+      description: Crea una nueva entrada de género en la base de datos
+      parameters:
+        - name: genre
+          in: query
+          required: true
+          type: string
+          description: Nombre del género a crear
+      responses:
+        200:
+          description: Género añadido correctamente
+          schema:
+            type: object
+            properties:
+              mensaje:
+                type: string
+
+    put:
+      summary: Actualizar género existente
+      description: Modifica el nombre de un género existente
+      parameters:
+        - name: id
+          in: query
+          required: true
+          type: integer
+          description: ID del género a modificar
+        - name: genre
+          in: query
+          required: true
+          type: string
+          description: Nuevo nombre del género
+      responses:
+        200:
+          description: Género modificado correctamente
+          schema:
+            type: object
+            properties:
+              mensaje:
+                type: string
+
+    delete:
+      summary: Eliminar género
+      description: Borra un género de la base de datos
+      parameters:
+        - name: id
+          in: query
+          required: true
+          type: integer
+          description: ID del género a eliminar
+      responses:
+        200:
+          description: Género eliminado correctamente
+          schema:
+            type: object
+            properties:
+              mensaje:
+                type: string
+
+  /generos:
+    get:
+      summary: Obtener todos los géneros
+      description: Devuelve una lista completa de todos los géneros registrados
+      responses:
+        200:
+          description: Lista de géneros
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                nombre:
+                  type: string
+
+# ------------------------------------------------------------
+# SECCIÓN DE VIDEOJUEGOS
+# Endpoints para gestionar videojuegos
+# Permiten CRUD de videojuegos (Crear, Leer, Actualizar, Eliminar)
+# ------------------------------------------------------------
+
+  /juego:
+    get:
+      summary: Obtener un videojuego específico
+      description: Devuelve los detalles de un videojuego por nombre y consola
+      parameters:
+        - name: name
+          in: query
+          required: true
+          type: string
+          description: Título del videojuego
+        - name: console
+          in: query
+          required: true
+          type: integer
+          description: ID de la consola
+      responses:
+        200:
+          description: Detalles del videojuego
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              titulo:
+                type: string
+              id_consola:
+                type: integer
+              id_genero:
+                type: integer
+        404:
+          description: Videojuego no encontrado
+
+    post:
+      summary: Añadir nuevo videojuego
+      description: Crea una nueva entrada de videojuego en la base de datos
+      parameters:
+        - name: name
+          in: query
+          required: true
+          type: string
+          description: Título del videojuego
+        - name: console
+          in: query
+          required: true
+          type: integer
+          description: ID de la consola
+        - name: genre
+          in: query
+          required: true
+          type: integer
+          description: ID del género
+      responses:
+        201:
+          description: Videojuego añadido correctamente
+          schema:
+            type: object
+            properties:
+              mensaje:
+                type: string
+        400:
+          description: Error de integridad (clave foránea no válida)
+
+    put:
+      summary: Actualizar videojuego existente
+      description: Modifica los datos de un videojuego existente
+      parameters:
+        - name: id
+          in: query
+          required: true
+          type: integer
+          description: ID del videojuego a modificar
+        - name: name
+          in: query
+          required: true
+          type: string
+          description: Nuevo título del videojuego
+        - name: console
+          in: query
+          required: true
+          type: integer
+          description: Nuevo ID de consola
+        - name: genre
+          in: query
+          required: true
+          type: integer
+          description: Nuevo ID de género
+      responses:
+        200:
+          description: Videojuego modificado correctamente
+          schema:
+            type: object
+            properties:
+              mensaje:
+                type: string
+
+    delete:
+      summary: Eliminar videojuego
+      description: Borra un videojuego de la base de datos
+      parameters:
+        - name: id
+          in: query
+          required: true
+          type: integer
+          description: ID del videojuego a eliminar
+      responses:
+        200:
+          description: Videojuego eliminado correctamente
+          schema:
+            type: object
+            properties:
+              mensaje:
+                type: string
+
+  /juegos:
+    get:
+      summary: Obtener todos los videojuegos
+      description: Devuelve una lista completa de todos los videojuegos registrados
+      responses:
+        200:
+          description: Lista de videojuegos
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                titulo:
+                  type: string
+                genero:
+                  type: string
+                id_consola:
+                  type: integer
+                id_genero:
+                  type: integer
