@@ -13,11 +13,14 @@
       <img src="{{ url_for('static', filename='img/gamegame.png') }}" alt="Game!">
     </div>
     <h1>Colección de Videojuegos</h1>
-    <p><a href="{{ url_for('add_videojuego') }}">Añadir Videojuego</a></p>
+    <p><a href="{{ url_for('add_videojuego') }}">Añadir Videojuego</a></p> <!--enlace para añadir un nuevo videojuego -->
 
-    {% if juegos %}
+
+    {% if juegos %} <!--verifica si hay videojuegos en la lista para mostrar -->
+
       <table>
         <thead>
+          <!-- cabecera de la tabla con enlaces para ordenar por id, titulo, consola o genero -->
           <tr>
             <th>
               <a href="{{ url_for('index', sort_by='id', order=('desc' if sort_by=='id' and order=='asc' else 'asc')) }}">
@@ -43,14 +46,16 @@
           </tr>
         </thead>
         <tbody>
-          {% for j in juegos %}
+          {% for j in juegos %}  <!-- empieza un bucle para mostrar todos los videojuegos -->
           <tr>
             <td>{{ j.id }}</td>
             <td>{{ j.titulo }}</td>
             <td>{{ j.consola }}</td>
             <td>{{ j.genero }}</td>
             <td>
+              <!-- boton para editar el videojuego seleccionado -->
               <a class="btn" href="{{ url_for('edit_videojuego', juego_id=j.id) }}">✎ Editar</a>
+              <!-- Formulario para eliminar el videojuego, pide confirmación antes de borrar -->
               <form
                 action="{{ url_for('delete_videojuego_route', juego_id=j.id) }}"
                 method="post"
@@ -61,9 +66,12 @@
               </form>
             </td>
           </tr>
-          {% endfor %}
+          {% endfor %}  <!-- termina el bucle de los videojuegos -->
+
+
         </tbody>
       </table>
+      <!-- si no hay juegos, muestra un mensaje que no hay videojuegos -->
     {% else %}
       <p>No hay videojuegos registrados.</p>
     {% endif %}

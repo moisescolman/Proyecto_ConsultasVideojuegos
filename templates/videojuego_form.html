@@ -9,14 +9,16 @@
 <body>
     <div class="container">
       <h1>Añadir Videojuego</h1>
-  
 
+<!--este bloque muestra un mensaje de exito en un cuadro con estilo solo si hay un mensaje para mostrar-->
       {% if mensaje %}
         <div class="alert alert-success">{{ mensaje }}</div>
       {% endif %}
   
+   <!--crea un formulario que envia datos a add_videojuego con el metodo POST-->
       <form action="{{ url_for('add_videojuego') }}" method="post">
-      
+
+  <!-- crea un campo para ingresar el título del videojuego -->
         <div class="form-group">
           <label for="titulo">Título del juego</label>
           <input
@@ -29,25 +31,26 @@
           />
         </div>
   
-  
-        <div class="form-group">
+<!-- lista para elegir el genero del videojuego -->
+         <div class="form-group">
           <label for="genero">Género</label>
           <select id="genero" name="genero" class="form-control" required>
             <option value="" disabled selected>-- Selecciona género --</option>
-            {% for g in generos %}
-              <option value="{{ g.id }}">{{ g.nombre }}</option>
-            {% endfor %}
+            {% for g in generos %} <!-- empieza un bucle para mostrar todos los generos disponibles -->
+              <option value="{{ g.id }}">{{ g.nombre }}</option> <!-- Aqui se muestra cada genero en el menu de seleccion -->
+            {% endfor %}   <!-- Termina el bucle despues de mostrar todos los generos -->
           </select>
         </div>
   
-  
+
+<!-- lista para elegir la consola del videojuego -->
         <div class="form-group">
           <label for="consola_id">Consola</label>
           <select id="consola_id" name="consola_id" class="form-control" required>
             <option value="" disabled selected>-- Selecciona consola --</option>
-            {% for c in consolas %}
-              <option value="{{ c.id }}">{{ c.nombre }}</option>
-            {% endfor %}
+            {% for c in consolas %} <!-- empieza un bucle para mostrar todas las consolas disponibles -->
+              <option value="{{ c.id }}">{{ c.nombre }}</option> <!-- Aqui se muestra cada consola disponible en el menu de seleccion -->
+            {% endfor %  <!-- Termina el bucle despues de mostrar todas las consolas -->
           </select>
         </div>
   

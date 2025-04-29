@@ -8,6 +8,7 @@
 </head>
 <body>
   <div class="container">
+    <!--campo de texto para editar el titulo, ya relleno con el nombre actual -->
     <h1>Modificar Videojuego</h1>
     <form action="{{ url_for('edit_videojuego', juego_id=juego.id) }}" method="post">
       <div class="form-group">
@@ -19,32 +20,36 @@
                required>
       </div>
 
+     
+ <!-- lista para editar el genero del videojuego, marcando el actual -->
       <div class="form-group">
         <label for="genero">Género</label>
         <select id="genero" name="genero" required>
-          {% for g in generos %}
+          {% for g in generos %}<!-- inicia el bucle para mostrar todos los generos disponibles -->
             <option value="{{ g.id }}"
-              {% if g.id == juego.genero_id %}selected{% endif %}>
+              {% if g.id == juego.genero_id %}selected{% endif %}> <!-- muestra y selecciona el genero actual del juego -->
               {{ g.nombre }}
             </option>
-          {% endfor %}
+          {% endfor %}<!-- finaliza el bucle que muestra todos los generos disponibles -->
+
         </select>
       </div>
 
       <div class="form-group">
         <label for="consola_id">Consola</label>
         <select id="consola_id" name="consola_id" required>
-          {% for c in consolas %}
+          {% for c in consolas %} <!-- empieza un bucle para mostrar todas las consolas disponibles -->
             <option value="{{ c.id }}"
-              {% if c.id == juego.consola_id %}selected{% endif %}>
+              {% if c.id == juego.consola_id %}selected{% endif %}> <!--muestra todas las consolas disponibles y marca la que esta asociada al videojuego que se esta editando-->
               {{ c.nombre }}
             </option>
-          {% endfor %}
+          {% endfor %} <!-- fin del bucle para mostrar las consolas -->
         </select>
       </div>
 
       <button type="submit" class="btn">Guardar Cambios</button>
     </form>
+    <!-- enlace para volver a la pagina principal del listado de videojuegos -->
     <p><a href="{{ url_for('index') }}">← Volver al listado</a></p>
   </div>
 </body>
