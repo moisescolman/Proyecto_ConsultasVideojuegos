@@ -19,7 +19,7 @@ def juegos_gp():
         result = get_juego_one(name, consola)
         return result, 200
     
-    # http://127.0.0.1:5000/juego?name=Need For Speed Porshe Unleashed&console=1&genre=7
+    # http://127.0.0.1:5000/juego?name=GTA V&console=5&genre=5
     elif request.method == 'POST':
         name = request.args['name']
         console = request.args['console']
@@ -27,7 +27,7 @@ def juegos_gp():
         insert_videojuego(name, genre, console)
         return jsonify({"mensaje":"Videojuego añadido correctamente"}) , 201
     
-    # http://127.0.0.1:5000/juego?id=32&name=Need For Speed Porshe Unleashed&console=3&genre=8
+    # http://127.0.0.1:5000/juego?id=32&name=GTA V&console=5&genre=1
     elif request.method == 'PUT':
         id = request.args['id']
         name = request.args['name']
@@ -47,6 +47,20 @@ def juegos_gp():
 def juegos_all():
     result = get_all_juegos()
     return jsonify(result), 200
+
+
+@app.route('/juego', methods=['PATCH'])
+def patch_juego():
+    data = request.get_json()
+    if not data or 'id' not in data:
+        return jsonify({"error": "Se requiere el campo 'id'"}), 400
+    juego_id = data['id']
+    if get_juego_by_id(juego_id) is None:
+        return jsonify({"error": "Videojuego no encontrado"}), 404
+    name = data.get('name')
+    console = data.get('console')
+    genre = data.get('genre')
+    return partial_update_videojuego(juego_id, name=name, console=console, genre=genre)
 
 
 #############################################

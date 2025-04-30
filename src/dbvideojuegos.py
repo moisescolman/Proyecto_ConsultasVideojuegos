@@ -65,6 +65,39 @@ def delete_videojuego(id):
     cursor.execute('DELETE FROM videojuegos WHERE id = ?', (id,))
     conn.commit()
     conn.close()
+    
+def partial_update_videojuego(id, name=None, console=None, genre=None):
+    fields = []
+    params = []
+    if name is not None:
+        fields.append("titulo = ?")
+        params.append(name)
+    if genre is not None:
+        fields.append("id_genero = ?")
+        params.append(genre)
+    if console is not None:
+        fields.append("id_consola = ?")
+        params.append(console)
+    if not fields:
+        return jsonify({"error": "No se proporcionaron campos para actualizar"}), 400
+    params.append(id)
+    sql = f"UPDATE videojuegos SET {', '.join(fields)} WHERE id = ?"
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute(sql, tuple(params))
+        if cursor.rowcount == 0:
+            return jsonify({"error": "Videojuego no encontrado"}), 404
+        conn.commit()
+    except sqlite3.IntegrityError as e:
+        conn.rollback()
+        return jsonify({
+            "error": "Error de integridad: clave foránea no válida.",
+            "details": str(e)
+        }), 400
+    finally:
+        conn.close()
+    return jsonify({"mensaje": "Videojuego actualizado parcialmente"}), 200
 
     
     
